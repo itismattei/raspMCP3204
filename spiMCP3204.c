@@ -83,10 +83,14 @@ int main (void)
   spiSetup (1000000) ;
 
   while(1){
+	  /// first byte: switch on and single eneded channel
 	  prova[0] = 0x7;
+	  /// read channel 0
 	  prova[1] = 0x0;
+	  /// don't care
 	  prova[2] = 0x0;
 		//if (wiringPiSPIDataRW (SPI_CHAN, myData, size) == -1)
+	  /// send 3 bytes and collect the answer
 	  if (wiringPiSPIDataRW (SPI_CHAN, prova, 3) == -1)
 	  {
 		printf ("SPI failure: %s\n", strerror (errno)) ;
@@ -97,6 +101,7 @@ int main (void)
 		//printf("OK\n");
 		  valore = (prova[1] & 0xF) << 8;
 		  valore |= prova[2];
+		  /// print raw read values
 		printf("%x\t%x\tvalore: %d\n", (prova[1] & 0xF), prova[2], valore);
 	  }    
 	  /// ripete ogni ms.
